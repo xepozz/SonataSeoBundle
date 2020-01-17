@@ -14,11 +14,12 @@ declare(strict_types=1);
 namespace Sonata\SeoBundle\Tests\Seo;
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Sonata\SeoBundle\Seo\SeoPage;
 
 class SeoPageTest extends TestCase
 {
-    public function testAddMeta()
+    public function testAddMeta(): void
     {
         $page = new SeoPage();
         $page->addMeta('property', 'foo', 'bar');
@@ -34,7 +35,7 @@ class SeoPageTest extends TestCase
         $this->assertSame($expected, $page->getMetas());
     }
 
-    public function testOverrideMetas()
+    public function testOverrideMetas(): void
     {
         $page = new SeoPage();
         $page->setMetas(['property' => ['foo' => 'bar', 'foo2' => ['bar2', []]]]);
@@ -46,7 +47,7 @@ class SeoPageTest extends TestCase
         $this->assertSame($expected, $page->getMetas());
     }
 
-    public function testRemoveMeta()
+    public function testRemoveMeta(): void
     {
         $page = new SeoPage();
         $page->setMetas(['property' => ['foo' => 'bar', 'foo2' => ['bar2', []]]]);
@@ -55,9 +56,9 @@ class SeoPageTest extends TestCase
         $this->assertFalse($page->hasMeta('property', 'foo'));
     }
 
-    public function testInvalidMetas()
+    public function testInvalidMetas(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(RuntimeException::class);
 
         $page = new SeoPage();
         $page->setMetas([
@@ -65,7 +66,7 @@ class SeoPageTest extends TestCase
         ]);
     }
 
-    public function testHtmlAttributes()
+    public function testHtmlAttributes(): void
     {
         $page = new SeoPage();
         $page->setHtmlAttributes(['key1' => 'value1']);
@@ -83,7 +84,7 @@ class SeoPageTest extends TestCase
         $this->assertFalse($page->hasHtmlAttribute('key2'));
     }
 
-    public function testHeadAttributes()
+    public function testHeadAttributes(): void
     {
         $page = new SeoPage();
         $page->setHeadAttributes(['head1' => 'value1']);
@@ -101,7 +102,7 @@ class SeoPageTest extends TestCase
         $this->assertFalse($page->hasHeadAttribute('head1'));
     }
 
-    public function testSetTitle()
+    public function testSetTitle(): void
     {
         $page = new SeoPage();
         $page->setTitle('My title');
@@ -109,7 +110,7 @@ class SeoPageTest extends TestCase
         $this->assertSame('My title', $page->getTitle());
     }
 
-    public function testAddTitle()
+    public function testAddTitle(): void
     {
         $page = new SeoPage();
         $page->setTitle('My title');
@@ -119,7 +120,7 @@ class SeoPageTest extends TestCase
         $this->assertSame('Additional title - My title', $page->getTitle());
     }
 
-    public function testLinkCanonical()
+    public function testLinkCanonical(): void
     {
         $page = new SeoPage();
         $page->setLinkCanonical('http://example.com');
@@ -130,7 +131,7 @@ class SeoPageTest extends TestCase
         $this->assertSame('', $page->getLinkCanonical());
     }
 
-    public function testLangAlternates()
+    public function testLangAlternates(): void
     {
         $page = new SeoPage();
         $page->setLangAlternates(['http://example.com/' => 'x-default']);
@@ -151,7 +152,7 @@ class SeoPageTest extends TestCase
     /**
      * The hasMeta() should return true for a defined meta, false otherwise.
      */
-    public function testHasMeta()
+    public function testHasMeta(): void
     {
         $page = new SeoPage();
         $page->addMeta('property', 'test', '');
@@ -160,10 +161,12 @@ class SeoPageTest extends TestCase
         $this->assertFalse($page->hasMeta('property', 'fake'));
     }
 
-    public function testSetSeparator()
+    public function testSetSeparator(): void
     {
         $page = new SeoPage();
-
-        $this->assertInstanceOf(SeoPage::class, $page->setSeparator('-'));
+        $page->setSeparator('-');
+        $page->setTitle('first');
+        $page->addTitle('second');
+        $this->assertEquals('second-first', $page->getTitle());
     }
 }

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Sonata\SeoBundle\Seo;
 
+use RuntimeException;
+
 /**
  * http://en.wikipedia.org/wiki/Meta_element.
  */
@@ -56,7 +58,7 @@ class SeoPage implements SeoPageInterface
     /**
      * @var array
      */
-    protected $oembedLinks;
+    protected $oEmbedLinks;
 
     /**
      * @param string $title
@@ -77,33 +79,29 @@ class SeoPage implements SeoPageInterface
         $this->linkCanonical = '';
         $this->separator = ' ';
         $this->langAlternates = [];
-        $this->oembedLinks = [];
+        $this->oEmbedLinks = [];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addTitle($title)
+    public function addTitle(string $title): void
     {
-        $this->title = $title.$this->separator.$this->title;
-
-        return $this;
+        $this->title = $title . $this->separator . $this->title;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -111,7 +109,7 @@ class SeoPage implements SeoPageInterface
     /**
      * {@inheritdoc}
      */
-    public function getMetas()
+    public function getMetas(): array
     {
         return $this->metas;
     }
@@ -119,14 +117,14 @@ class SeoPage implements SeoPageInterface
     /**
      * {@inheritdoc}
      */
-    public function addMeta($type, $name, /* string */ $content, array $extras = [])
+    public function addMeta(string $type, string $name, string $content, array $extras = []): void
     {
-        if (!\is_string($content)) {
+        if (!is_string($content)) {
             @trigger_error(sprintf(
                 'Passing meta content of type %s in %s is deprecated since version 2.x and will be unsupported in version 3. Please cast the value to a string first.',
-                 \gettype($content),
-                  __METHOD__
-              ), E_USER_DEPRECATED);
+                gettype($content),
+                __METHOD__
+            ), E_USER_DEPRECATED);
         }
 
         if (!isset($this->metas[$type])) {
@@ -134,8 +132,6 @@ class SeoPage implements SeoPageInterface
         }
 
         $this->metas[$type][$name] = [$content, $extras];
-
-        return $this;
     }
 
     /**
@@ -144,7 +140,7 @@ class SeoPage implements SeoPageInterface
      *
      * @return bool
      */
-    public function hasMeta($type, $name)
+    public function hasMeta(string $type, string $name): bool
     {
         return isset($this->metas[$type][$name]);
     }
@@ -155,53 +151,45 @@ class SeoPage implements SeoPageInterface
      *
      * @return $this
      */
-    public function removeMeta($type, $name)
+    public function removeMeta(string $type, string $name)
     {
         unset($this->metas[$type][$name]);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setMetas(array $metadatas)
+    public function setMetas(array $metaData): void
     {
         $this->metas = [];
 
-        foreach ($metadatas as $type => $metas) {
-            if (!\is_array($metas)) {
-                throw new \RuntimeException('$metas must be an array');
+        foreach ($metaData as $type => $metas) {
+            if (!is_array($metas)) {
+                throw new RuntimeException('$metas must be an array');
             }
 
             foreach ($metas as $name => $meta) {
-                list($content, $extras) = $this->normalize($meta);
+                [$content, $extras] = is_string($meta) ? [$meta, []] : $meta;
 
                 $this->addMeta($type, $name, $content, $extras);
             }
         }
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setHtmlAttributes(array $attributes)
+    public function setHtmlAttributes(array $attributes): void
     {
         $this->htmlAttributes = $attributes;
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addHtmlAttributes($name, $value)
+    public function addHtmlAttributes(string $name, string $value): void
     {
         $this->htmlAttributes[$name] = $value;
-
-        return $this;
     }
 
     /**
@@ -209,17 +197,15 @@ class SeoPage implements SeoPageInterface
      *
      * @return $this
      */
-    public function removeHtmlAttributes($name)
+    public function removeHtmlAttributes(string $name): void
     {
         unset($this->htmlAttributes[$name]);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getHtmlAttributes()
+    public function getHtmlAttributes(): array
     {
         return $this->htmlAttributes;
     }
@@ -229,19 +215,18 @@ class SeoPage implements SeoPageInterface
      *
      * @return bool
      */
-    public function hasHtmlAttribute($name)
+    public function hasHtmlAttribute(string $name): bool
     {
         return isset($this->htmlAttributes[$name]);
     }
 
     /**
-     * @return SeoPageInterface
+     * @param array $attributes
+     * @return void
      */
-    public function setHeadAttributes(array $attributes)
+    public function setHeadAttributes(array $attributes): void
     {
         $this->headAttributes = $attributes;
-
-        return $this;
     }
 
     /**
@@ -250,11 +235,9 @@ class SeoPage implements SeoPageInterface
      *
      * @return SeoPageInterface
      */
-    public function addHeadAttribute($name, $value)
+    public function addHeadAttribute(string $name, string $value): void
     {
         $this->headAttributes[$name] = $value;
-
-        return $this;
     }
 
     /**
@@ -262,17 +245,15 @@ class SeoPage implements SeoPageInterface
      *
      * @return $this
      */
-    public function removeHeadAttribute($name)
+    public function removeHeadAttribute(string $name): void
     {
         unset($this->headAttributes[$name]);
-
-        return $this;
     }
 
     /**
      * @return array
      */
-    public function getHeadAttributes()
+    public function getHeadAttributes(): array
     {
         return $this->headAttributes;
     }
@@ -282,7 +263,7 @@ class SeoPage implements SeoPageInterface
      *
      * @return array
      */
-    public function hasHeadAttribute($name)
+    public function hasHeadAttribute(string $name): bool
     {
         return isset($this->headAttributes[$name]);
     }
@@ -290,17 +271,15 @@ class SeoPage implements SeoPageInterface
     /**
      * {@inheritdoc}
      */
-    public function setLinkCanonical($link)
+    public function setLinkCanonical(string $link): void
     {
         $this->linkCanonical = $link;
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getLinkCanonical()
+    public function getLinkCanonical(): string
     {
         return $this->linkCanonical;
     }
@@ -308,7 +287,7 @@ class SeoPage implements SeoPageInterface
     /**
      * {@inheritdoc}
      */
-    public function removeLinkCanonical()
+    public function removeLinkCanonical(): void
     {
         $this->linkCanonical = '';
     }
@@ -316,51 +295,40 @@ class SeoPage implements SeoPageInterface
     /**
      * {@inheritdoc}
      */
-    public function setSeparator($separator)
+    public function setSeparator(string $separator): void
     {
         $this->separator = $separator;
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setLangAlternates(array $langAlternates)
+    public function setLangAlternates(array $langAlternates): void
     {
         $this->langAlternates = $langAlternates;
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addLangAlternate($href, $hrefLang)
+    public function addLangAlternate(string $href, string $hrefLang): void
     {
         $this->langAlternates[$href] = $hrefLang;
-
-        return $this;
     }
 
     /**
      * @param string $href
-     *
-     * @return $this
      */
-    public function removeLangAlternate($href)
+    public function removeLangAlternate(string $href): void
     {
         unset($this->langAlternates[$href]);
-
-        return $this;
     }
 
     /**
      * @param string $href
-     *
-     * @return $this
+     * @return bool
      */
-    public function hasLangAlternate($href)
+    public function hasLangAlternate(string $href): bool
     {
         return isset($this->langAlternates[$href]);
     }
@@ -368,43 +336,25 @@ class SeoPage implements SeoPageInterface
     /**
      * {@inheritdoc}
      */
-    public function getLangAlternates()
+    public function getLangAlternates(): array
     {
-        return  $this->langAlternates;
+        return $this->langAlternates;
     }
 
     /**
      * @param $title
      * @param $link
-     *
-     * @return SeoPageInterface
      */
-    public function addOEmbedLink($title, $link)
+    public function addOEmbedLink(string $title, string $link): void
     {
-        $this->oembedLinks[$title] = $link;
-
-        return $this;
+        $this->oEmbedLinks[$title] = $link;
     }
 
     /**
      * @return array
      */
-    public function getOEmbedLinks()
+    public function getOEmbedLinks(): array
     {
-        return $this->oembedLinks;
-    }
-
-    /**
-     * @param mixed $meta
-     *
-     * @return array
-     */
-    private function normalize($meta)
-    {
-        if (\is_string($meta)) {
-            return [$meta, []];
-        }
-
-        return $meta;
+        return $this->oEmbedLinks;
     }
 }

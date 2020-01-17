@@ -20,28 +20,29 @@ interface SeoPageInterface
      *
      * @return SeoPageInterface
      */
-    public function setTitle($title);
+    public function setTitle(string $title): void;
 
     /**
      * @param string $title
      *
      * @return SeoPageInterface
      */
-    public function addTitle($title);
+    public function addTitle(string $title): void;
 
     /**
      * @return string
      */
-    public function getTitle();
+    public function getTitle(): string;
 
     /**
      * @param string $type
      * @param string $name
      * @param string $value
      *
+     * @param array $extras
      * @return mixed
      */
-    public function addMeta($type, $name, $value, array $extras = []);
+    public function addMeta(string $type, string $name, string $value, array $extras = []): void;
 
     /**
      * @param string $type
@@ -49,22 +50,24 @@ interface SeoPageInterface
      *
      * @return bool
      */
-    public function hasMeta($type, $name);
+    public function hasMeta(string $type, string $name): bool;
 
     /**
      * @return array
      */
-    public function getMetas();
+    public function getMetas(): array;
 
     /**
-     * @return SeoPageInterface
+     * @param array $metas
+     * @return void
      */
-    public function setMetas(array $metas);
+    public function setMetas(array $metas): void;
 
     /**
-     * @return SeoPageInterface
+     * @param array $attributes
+     * @return void
      */
-    public function setHtmlAttributes(array $attributes);
+    public function setHtmlAttributes(array $attributes): void;
 
     /**
      * @param string $name
@@ -72,17 +75,18 @@ interface SeoPageInterface
      *
      * @return SeoPageInterface
      */
-    public function addHtmlAttributes($name, $value);
+    public function addHtmlAttributes(string $name, string $value): void;
 
     /**
      * @return array
      */
-    public function getHtmlAttributes();
+    public function getHtmlAttributes(): array;
 
     /**
-     * @return SeoPageInterface
+     * @param array $attributes
+     * @return void
      */
-    public function setHeadAttributes(array $attributes);
+    public function setHeadAttributes(array $attributes): void;
 
     /**
      * @param string $name
@@ -90,36 +94,37 @@ interface SeoPageInterface
      *
      * @return SeoPageInterface
      */
-    public function addHeadAttribute($name, $value);
+    public function addHeadAttribute(string $name, string $value): void;
 
     /**
      * @return array
      */
-    public function getHeadAttributes();
+    public function getHeadAttributes(): array;
 
     /**
      * @param string $link
      *
      * @return SeoPageInterface
      */
-    public function setLinkCanonical($link);
+    public function setLinkCanonical(string $link): void;
 
     /**
      * @return string
      */
-    public function getLinkCanonical();
+    public function getLinkCanonical(): string;
 
     /**
      * @param string $separator
      *
      * @return SeoPageInterface
      */
-    public function setSeparator($separator);
+    public function setSeparator(string $separator): void;
 
     /**
-     * @return SeoPageInterface
+     * @param array $langAlternates
+     * @return void
      */
-    public function setLangAlternates(array $langAlternates);
+    public function setLangAlternates(array $langAlternates): void;
 
     /**
      * @param string $href
@@ -127,12 +132,12 @@ interface SeoPageInterface
      *
      * @return SeoPageInterface
      */
-    public function addLangAlternate($href, $hrefLang);
+    public function addLangAlternate(string $href, string $hrefLang): void;
 
     /**
      * @return array
      */
-    public function getLangAlternates();
+    public function getLangAlternates(): array;
 
     /**
      * @param $title
@@ -140,10 +145,10 @@ interface SeoPageInterface
      *
      * @return SeoPageInterface
      */
-    public function addOEmbedLink($title, $link);
+    public function addOEmbedLink(string $title, string $link): void;
 
     /**
      * @return array
      */
-    public function getOEmbedLinks();
+    public function getOEmbedLinks(): array;
 }
