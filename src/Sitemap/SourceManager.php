@@ -35,8 +35,10 @@ class SourceManager implements SourceIteratorInterface
      * Adding source with his group.
      *
      * @param string $group
+     * @param \Sonata\Exporter\Source\SourceIteratorInterface $source
+     * @param array $types
      */
-    public function addSource($group, SourceIteratorInterface $source, array $types = [])
+    public function addSource(string $group, SourceIteratorInterface $source, array $types = []): void
     {
         if (!isset($this->sources[$group])) {
             $this->sources[$group] = new \stdClass();
