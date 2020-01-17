@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ServiceCompilerPassTest extends TestCase
 {
-    public function testServicesExistsAndCanBeOverridden()
+    public function testServicesExistsAndCanBeOverridden(): void
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.bundles', []);

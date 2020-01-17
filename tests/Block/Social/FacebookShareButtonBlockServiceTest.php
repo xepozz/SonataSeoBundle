@@ -22,7 +22,7 @@ use Sonata\SeoBundle\Block\Social\FacebookShareButtonBlockService;
 
 class FacebookShareButtonBlockServiceTest extends AbstractBlockServiceTestCase
 {
-    public function testService()
+    public function testService(): void
     {
         $service = new FacebookShareButtonBlockService(
             'sonata.block.service.facebook.share_button',

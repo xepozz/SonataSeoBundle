@@ -22,7 +22,7 @@ use Sonata\SeoBundle\Block\Social\FacebookSendButtonBlockService;
 
 class FacebookSendButtonBlockServiceTest extends AbstractBlockServiceTestCase
 {
-    public function testService()
+    public function testService(): void
     {
         $service = new FacebookSendButtonBlockService(
             'sonata.block.service.facebook.send_button',

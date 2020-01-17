@@ -23,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
  */
 class TwitterEmbedTweetBlockServiceTest extends AbstractBlockServiceTestCase
 {
-    public function testBuildUri()
+    public function testBuildUri(): void
     {
         $settings = [
             'tweet' => 'tweeeeeeeet',

@@ -20,7 +20,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class ConfigurationTest extends TestCase
 {
-    public function testDefaultConfiguration()
+    public function testDefaultConfiguration(): void
     {
         $expected = [
             'encoding' => 'UTF-8',
@@ -44,7 +44,7 @@ class ConfigurationTest extends TestCase
         $this->assertSame($expected, $this->processConfiguration([[]]));
     }
 
-    public function testKeysAreNotNormalized()
+    public function testKeysAreNotNormalized(): void
     {
         $values = [
             'page' => [
@@ -67,10 +67,10 @@ class ConfigurationTest extends TestCase
         $this->assertSame($expected, $config);
     }
 
-    public function testWithYamlConfig()
+    public function testWithYamlConfig(): void
     {
         $values = Yaml::parse(
-            file_get_contents(__DIR__.'/data/config.yml'),
+            file_get_contents(__DIR__ . '/data/config.yml'),
             Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE
         );
 

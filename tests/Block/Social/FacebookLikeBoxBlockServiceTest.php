@@ -22,7 +22,7 @@ use Sonata\SeoBundle\Block\Social\FacebookLikeBoxBlockService;
 
 class FacebookLikeBoxBlockServiceTest extends AbstractBlockServiceTestCase
 {
-    public function testService()
+    public function testService(): void
     {
         $service = new FacebookLikeBoxBlockService(
             'sonata.block.service.facebook.like_box',
