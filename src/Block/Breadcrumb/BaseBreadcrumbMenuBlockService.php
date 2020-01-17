@@ -41,6 +41,9 @@ abstract class BaseBreadcrumbMenuBlockService extends MenuBlockService
     /**
      * @param string $context
      * @param string $name
+     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
+     * @param \Knp\Menu\Provider\MenuProviderInterface $menuProvider
+     * @param \Knp\Menu\FactoryInterface $factory
      */
     public function __construct($context, $name, EngineInterface $templating, MenuProviderInterface $menuProvider, FactoryInterface $factory)
     {
@@ -57,7 +60,7 @@ abstract class BaseBreadcrumbMenuBlockService extends MenuBlockService
      *
      * @return bool
      */
-    public function handleContext($context)
+    public function handleContext($context): bool
     {
         return $this->context === $context;
     }
@@ -87,7 +90,7 @@ abstract class BaseBreadcrumbMenuBlockService extends MenuBlockService
     /**
      * @return FactoryInterface
      */
-    protected function getFactory()
+    protected function getFactory(): FactoryInterface
     {
         return $this->factory;
     }
@@ -95,7 +98,7 @@ abstract class BaseBreadcrumbMenuBlockService extends MenuBlockService
     /**
      * @return string
      */
-    protected function getContext()
+    protected function getContext(): string
     {
         return $this->context;
     }
@@ -103,9 +106,10 @@ abstract class BaseBreadcrumbMenuBlockService extends MenuBlockService
     /**
      * Initialize breadcrumb menu.
      *
+     * @param \Sonata\BlockBundle\Block\BlockContextInterface $blockContext
      * @return ItemInterface
      */
-    protected function getRootMenu(BlockContextInterface $blockContext)
+    protected function getRootMenu(BlockContextInterface $blockContext): ItemInterface
     {
         $settings = $blockContext->getSettings();
         /*

@@ -28,7 +28,7 @@ class BreadcrumbMenuBlockService_Test extends BaseBreadcrumbMenuBlockService
  */
 class BreadcrumbTest extends AbstractBlockServiceTestCase
 {
-    public function testBlockService()
+    public function testBlockService(): void
     {
         $blockService = new BreadcrumbMenuBlockService_Test(
             'context',
