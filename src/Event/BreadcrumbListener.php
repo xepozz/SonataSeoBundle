@@ -33,16 +33,18 @@ class BreadcrumbListener
      * Add a renderer to the status services list.
      *
      * @param string $type
+     * @param \Sonata\BlockBundle\Block\BlockServiceInterface $blockService
      */
-    public function addBlockService($type, BlockServiceInterface $blockService)
+    public function addBlockService($type, BlockServiceInterface $blockService): void
     {
         $this->blockServices[$type] = $blockService;
     }
 
     /**
      * Add context related BlockService, if found.
+     * @param \Sonata\BlockBundle\Event\BlockEvent $event
      */
-    public function onBlock(BlockEvent $event)
+    public function onBlock(BlockEvent $event): void
     {
         $context = $event->getSetting('context', null);
 
@@ -53,7 +55,7 @@ class BreadcrumbListener
         foreach ($this->blockServices as $type => $blockService) {
             if ($blockService->handleContext($context)) {
                 $block = new Block();
-                $block->setId(uniqid());
+                $block->setId(uniqid('', true));
                 $block->setSettings($event->getSettings());
                 $block->setType($type);
 

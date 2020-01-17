@@ -35,8 +35,6 @@ class HomepageBreadcrumbBlockService extends BaseBreadcrumbMenuBlockService
      */
     protected function getMenu(BlockContextInterface $blockContext)
     {
-        $menu = $this->getRootMenu($blockContext);
-
-        return $menu;
+        return $this->getRootMenu($blockContext);
     }
 }

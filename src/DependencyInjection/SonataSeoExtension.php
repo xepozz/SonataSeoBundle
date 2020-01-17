@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Sonata\SeoBundle\DependencyInjection;
 
+use RuntimeException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -56,16 +57,20 @@ class SonataSeoExtension extends Extension
 
     /**
      * Configure the default seo page.
+     * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    protected function configureSeoPage(array $config, ContainerBuilder $container)
+    protected function configureSeoPage(array $config, ContainerBuilder $container): void
     {
         $container->setParameter('sonata.seo.config', $config);
     }
 
     /**
      * Configure the sitemap source manager.
+     * @param array $config
+     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
      */
-    protected function configureSitemap(array $config, ContainerBuilder $container)
+    protected function configureSitemap(array $config, ContainerBuilder $container): void
     {
         $source = $container->getDefinition('sonata.seo.sitemap.manager');
 
@@ -108,9 +113,10 @@ class SonataSeoExtension extends Extension
     /**
      * Fix the sitemap configuration.
      *
+     * @param array $config
      * @return array
      */
-    protected function fixConfiguration(array $config)
+    protected function fixConfiguration(array $config): array
     {
         foreach ($config['sitemap']['doctrine_orm'] as $pos => $sitemap) {
             $sitemap['group'] = $sitemap['group'] ?? false;
@@ -121,22 +127,22 @@ class SonataSeoExtension extends Extension
             $sitemap['query'] = $sitemap['query'] ?? false;
 
             if (false === $sitemap['route']) {
-                throw new \RuntimeException('Route cannot be empty, please review the sonata_seo.sitemap configuration');
+                throw new RuntimeException('Route cannot be empty, please review the sonata_seo.sitemap configuration');
             }
 
             if (false === $sitemap['query']) {
-                throw new \RuntimeException('Query cannot be empty, please review the sonata_seo.sitemap configuration');
+                throw new RuntimeException('Query cannot be empty, please review the sonata_seo.sitemap configuration');
             }
 
             if (false === $sitemap['parameters']) {
-                throw new \RuntimeException('Route\'s parameters cannot be empty, please review the sonata_seo.sitemap configuration');
+                throw new RuntimeException('Route\'s parameters cannot be empty, please review the sonata_seo.sitemap configuration');
             }
 
             $config['sitemap']['doctrine_orm'][$pos] = $sitemap;
         }
 
         foreach ($config['sitemap']['services'] as $pos => $sitemap) {
-            if (!\is_array($sitemap)) {
+            if (!is_array($sitemap)) {
                 $sitemap = [
                     'group' => false,
                     'types' => [],
@@ -147,7 +153,7 @@ class SonataSeoExtension extends Extension
                 $sitemap['types'] = $sitemap['types'] ?? [];
 
                 if (!isset($sitemap['id'])) {
-                    throw new \RuntimeException('Service id must to be defined, please review the sonata_seo.sitemap configuration');
+                    throw new RuntimeException('Service id must to be defined, please review the sonata_seo.sitemap configuration');
                 }
             }
 

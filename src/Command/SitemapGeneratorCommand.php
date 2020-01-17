@@ -70,6 +70,7 @@ class SitemapGeneratorCommand extends Command implements ContainerAwareInterface
     }
 
     /**
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface|null $container
      * @deprecated since sonata-project/seo-bundle 2.0
      *
      * NEXT_MAJOR Remove deprecated methods, remove interface implementation, cleanup 'use' block.
@@ -170,6 +171,7 @@ EOT
     /**
      * Creates temporary directory if one does not exist.
      *
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
      * @return string|null Directory name or null if directory is already exist
      */
     private function createTempDir(OutputInterface $output): ?string
@@ -188,6 +190,10 @@ EOT
     }
 
     /**
+     * @param string $dir
+     * @param string $scheme
+     * @param string $host
+     * @param string $appendPath
      * @throws \Exception
      */
     private function generateSitemap(string $dir, string $scheme, string $host, string $appendPath): void
